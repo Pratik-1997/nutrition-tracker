@@ -395,24 +395,24 @@ export default function DashboardClient({
     if (!editingTemplateId) return;
     const name = editName.trim();
     if (!name) return;
-    const cal = parseInt(editCal, 10) || 0;
-    const p = parseFloat(editP) || 0;
-    const f = parseFloat(editF) || 0;
-    const c = parseFloat(editC) || 0;
+    const calories = parseInt(editCal, 10) || 0;
+    const protein = parseFloat(editP) || 0;
+    const fat = parseFloat(editF) || 0;
+    const carbs = parseFloat(editC) || 0;
     setError(null);
     startTransition(async () => {
       const res = await updateDietTemplate(editingTemplateId, name, {
-        calories: cal,
-        protein_grams: p,
-        fat_grams: f,
-        carbs_grams: c,
+        calories: calories,
+        protein_grams: protein,
+        fat_grams: fat,
+        carbs_grams: carbs,
       });
       if (res?.error) setError(res.error);
       else {
         setTemplates((prev) =>
           prev.map((x) =>
             x.id === editingTemplateId
-              ? { ...x, name, calories: cal, protein_grams: p, fat_grams: f, carbs_grams: c }
+              ? { ...x, name, calories: calories, protein_grams: protein, fat_grams: fat, carbs_grams: carbs }
               : x
           )
         );
