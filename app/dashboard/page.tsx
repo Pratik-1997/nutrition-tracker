@@ -6,6 +6,8 @@ import {
   getGymLogForDate,
   getActiveDaysInMonth,
   getStepsHistory,
+  getDietTemplates,
+  getDailyNutritionHistory,
 } from "@/app/actions/progress";
 import DashboardClient from "./dashboard-client";
 
@@ -20,17 +22,26 @@ export default async function DashboardPage() {
   }
 
   const today = new Date().toISOString().slice(0, 10);
-  const [initialSteps, initialDiet, initialGym, initialActiveDays, initialStepsHistory] =
-    await Promise.all([
-      getStepsForDate(today),
-      getDietEntriesForDate(today),
-      getGymLogForDate(today),
-      getActiveDaysInMonth(
-        new Date().getFullYear(),
-        new Date().getMonth() + 1
-      ),
-      getStepsHistory(14),
-    ]);
+  const [
+    initialSteps,
+    initialDiet,
+    initialGym,
+    initialActiveDays,
+    initialStepsHistory,
+    initialTemplates,
+    initialDailyNutrition,
+  ] = await Promise.all([
+    getStepsForDate(today),
+    getDietEntriesForDate(today),
+    getGymLogForDate(today),
+    getActiveDaysInMonth(
+      new Date().getFullYear(),
+      new Date().getMonth() + 1
+    ),
+    getStepsHistory(14),
+    getDietTemplates(),
+    getDailyNutritionHistory(14),
+  ]);
 
   return (
     <DashboardClient
@@ -41,6 +52,8 @@ export default async function DashboardPage() {
       initialGym={initialGym}
       initialActiveDays={initialActiveDays}
       initialStepsHistory={initialStepsHistory}
+      initialTemplates={initialTemplates}
+      initialDailyNutrition={initialDailyNutrition}
     />
   );
 }
